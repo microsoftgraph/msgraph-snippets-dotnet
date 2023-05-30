@@ -35,3 +35,8 @@ catch (ODataError error)
 {
     Console.WriteLine(error.Message);
 }
+catch (Exception ex)
+{
+    Console.WriteLine(ex.Message);
+    Console.WriteLine(ex.StackTrace);
+}

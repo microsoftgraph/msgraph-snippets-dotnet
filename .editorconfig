@@ -6,3 +6,8 @@ insert_final_newline = true
 [*.{cs,cshtml}]
 indent_size = 4
 dotnet_diagnostic.SA1101.severity = silent
+
+[/src/SdkSnippets/Snippets/**]
+dotnet_diagnostic.SA1512.severity = none
+dotnet_diagnostic.SA1513.severity = none
+dotnet_diagnostic.SA1515.severity = none
