@@ -287,7 +287,7 @@ public static class CreateClients
             userName, password, tenantId, clientId, options);
 
         var graphClient = new GraphServiceClient(userNamePasswordCredential, scopes);
-        // <UserNamePasswordSnippet>
+        // </UserNamePasswordSnippet>
 
         return graphClient;
     }
