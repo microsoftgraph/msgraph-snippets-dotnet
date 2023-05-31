@@ -4,6 +4,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Graph.Models.ODataErrors;
 using SdkSnippets;
+using SdkSnippets.Snippets;
 
 var settings = Settings.LoadSettings();
 
@@ -30,6 +31,8 @@ try
 {
     var me = await userClient.Me.GetAsync();
     Console.WriteLine($"Hello, {me?.GivenName}");
+
+    await BatchRequests.RunBatchSamples(userClient);
 }
 catch (ODataError error)
 {
