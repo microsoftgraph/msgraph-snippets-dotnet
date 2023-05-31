@@ -66,15 +66,13 @@ public static class HttpRequestMessageExtensions
     /// <param name="request">The HTTP request to log.</param>
     /// <param name="logger">The logger to use for logging output.</param>
     /// <returns><see cref="Task"/>.</returns>
-    public static Task LogPayloadToLoggerAsync(
+    public static async Task LogPayloadToLoggerAsync(
         this HttpRequestMessage request,
         ILogger logger)
     {
-        if (request.Content == null)
+        if (request.Content != null)
         {
-            return Task.CompletedTask;
+            await request.Content.LogToLoggerAsync(logger);
         }
-
-        return request.Content.LogToLoggerAsync(logger);
     }
 }

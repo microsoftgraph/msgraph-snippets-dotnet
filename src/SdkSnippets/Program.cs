@@ -33,6 +33,7 @@ try
     Console.WriteLine($"Hello, {me?.GivenName}");
 
     await BatchRequests.RunBatchSamples(userClient);
+    await CreateRequests.MakeRequests(userClient);
 }
 catch (ODataError error)
 {
