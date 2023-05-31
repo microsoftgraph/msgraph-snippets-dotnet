@@ -19,8 +19,20 @@ public static class CreateRequests
     /// <returns><see cref="Task"/>.</returns>
     public static async Task MakeRequests(GraphServiceClient graphClient)
     {
-        var messageId = "AAMkADNh...";
-        var teamId = "62c1652c-0627-48ec-bc01-0e9fcfcb79da";
+        // Create a new message
+        var tempMessage = await graphClient.Me.Messages.PostAsync(
+            new Message
+            {
+                Subject = "Temporary",
+            });
+        var messageId = tempMessage?.Id ?? throw new Exception("Couldn't create new message");
+
+        // Get a team to update
+        var teams = await graphClient.Groups.GetAsync(config =>
+        {
+            config.QueryParameters.Filter = "resourceProvisioningOptions/Any(x:x+eq+'Team')";
+        });
+        var teamId = teams?.Value?.FirstOrDefault()?.Id ?? throw new Exception("Couldn't get a team");
 
         await MakeReadRequest(graphClient);
         await MakeSelectRequest(graphClient);
