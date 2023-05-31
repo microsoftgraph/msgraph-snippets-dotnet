@@ -68,8 +68,10 @@ public static class CreateRequests
         var messages = await graphClient.Me.Messages
             .GetAsync(requestConfig =>
             {
-                requestConfig.QueryParameters.Select = new string[] { "subject", "sender" };
-                requestConfig.QueryParameters.Filter = "subject eq 'Hello world'";
+                requestConfig.QueryParameters.Select =
+                    new string[] { "subject", "sender" };
+                requestConfig.QueryParameters.Filter =
+                    "subject eq 'Hello world'";
             });
         // </ListRequestSnippet>
 
