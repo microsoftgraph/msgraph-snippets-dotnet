@@ -30,7 +30,7 @@ public static class HttpResponseMessageExtensions
 
         if (options.ShowPayloads)
         {
-            await response.LogPayloadToLoggerAsync(logger);
+            await response.LogPayloadToLoggerAsync(logger, options);
         }
     }
 
@@ -65,14 +65,16 @@ public static class HttpResponseMessageExtensions
     /// </summary>
     /// <param name="response">The HTTP response to log.</param>
     /// <param name="logger">The logger to use for logging output.</param>
+    /// <param name="options">Logging options.</param>
     /// <returns><see cref="Task"/>.</returns>
     public static async Task LogPayloadToLoggerAsync(
         this HttpResponseMessage response,
-        ILogger logger)
+        ILogger logger,
+        SdkClientLoggingOptions options)
     {
         if (response.Content != null)
         {
-            await response.Content.LogToLoggerAsync(logger);
+            await response.Content.LogToLoggerAsync(logger, options.ShowTokens);
         }
     }
 }
