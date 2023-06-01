@@ -51,6 +51,7 @@ while (choice < 0)
     Console.WriteLine("1. Run batch samples");
     Console.WriteLine("2. Run create request samples");
     Console.WriteLine("3. Run upload samples");
+    Console.WriteLine("4. Run paging samples");
 
     try
     {
@@ -78,6 +79,9 @@ while (choice < 0)
                 break;
             case 3:
                 await LargeFileUpload.RunUploadSamples(userClient);
+                break;
+            case 4:
+                await Paging.RunAllSamples(userClient);
                 break;
             default:
                 Console.WriteLine("Invalid choice! Please try again.");
