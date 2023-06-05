@@ -129,7 +129,7 @@ public static class CreateClients
     public static GraphServiceClient CreateWithOnBehalfOf()
     {
         // <OnBehalfOfSnippet>
-        var scopes = new[] { "User.Read" };
+        var scopes = new[] { "https://graph.microsoft.com/.default" };
 
         // Multi-tenant apps can use "common",
         // single-tenant apps must use the tenant ID from the Azure portal
