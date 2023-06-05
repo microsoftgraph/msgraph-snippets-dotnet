@@ -53,8 +53,10 @@ public static class CustomClients
     /// <summary>
     /// Creates a <see cref="GraphServiceClient"/> with an HTTP proxy.
     /// </summary>
+    /// <param name="tokenCredential">The token credential to use to authenticate the client.</param>
+    /// <param name="scopes">The Microsoft Graph permission scopes to use for authentication.</param>
     /// <returns><see cref="GraphServiceClient"/>.</returns>
-    public static GraphServiceClient CreateWithProxy()
+    public static GraphServiceClient CreateWithProxy(TokenCredential tokenCredential, string[] scopes)
     {
         // <ProxySnippet>
         // URI to proxy
@@ -69,24 +71,7 @@ public static class CustomClients
             Proxy = new WebProxy(new Uri(proxyAddress)),
         };
 
-        // Create an options object for the credential being used
-        // For example, here we're using a ClientSecretCredential so
-        // we create a ClientSecretCredentialOptions object
-        var options = new ClientSecretCredentialOptions
-        {
-            // Create a new Azure.Core.Pipeline.HttpClientTransport
-            Transport = new HttpClientTransport(handler),
-        };
-
-        var credential = new ClientSecretCredential(
-            "YOUR_TENANT_ID",
-            "YOUR_CLIENT_ID",
-            "YOUR_CLIENT_SECRET",
-            options);
-
-        var scopes = new[] { "https://graph.microsoft.com/.default" };
-
-        var authProvider = new AzureIdentityAuthenticationProvider(credential, scopes);
+        var authProvider = new AzureIdentityAuthenticationProvider(tokenCredential, scopes);
 
         // This example works with Microsoft.Graph 5+
         var httpClient = GraphClientFactory.Create(proxy: new WebProxy(new Uri(proxyAddress)));
