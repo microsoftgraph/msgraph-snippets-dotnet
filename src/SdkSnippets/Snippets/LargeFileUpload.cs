@@ -38,7 +38,6 @@ public static class LargeFileUpload
         using var fileStream = File.OpenRead(filePath);
 
         // Use properties to specify the conflict behavior
-        // in this case, replace
         // using DriveUpload = Microsoft.Graph.Drives.Item.Items.Item.CreateUploadSession;
         var uploadSessionRequestBody = new DriveUpload.CreateUploadSessionPostRequestBody
         {

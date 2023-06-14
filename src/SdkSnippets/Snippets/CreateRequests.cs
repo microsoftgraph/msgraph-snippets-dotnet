@@ -163,14 +163,12 @@ public static class CreateRequests
     private static async Task<EventCollectionResponse?> MakeHeadersRequest(GraphServiceClient graphClient)
     {
         // <HeadersRequestSnippet>
-        //  GET https://graph.microsoft.com/v1.0/me/events
+        // GET https://graph.microsoft.com/v1.0/me/events
         var events = await graphClient.Me.Events
             .GetAsync(requestConfig =>
             {
                 requestConfig.Headers.Add(
                     "Prefer", @"outlook.timezone=""Pacific Standard Time""");
-                requestConfig.QueryParameters.Select =
-                    new string[] { "subject", "body", "bodyPreview" };
             });
         // </HeadersRequestSnippet>
 
@@ -181,14 +179,14 @@ public static class CreateRequests
     {
         // <QueryParametersRequestSnippet>
         // GET https://graph.microsoft.com/v1.0/me/calendarView?
-        // startDateTime=2020-12-01T00:00:00Z&endDateTime=2020-12-30T00:00:00Z
+        // startDateTime=2023-06-14T00:00:00Z&endDateTime=2023-06-15T00:00:00Z
         var events = await graphClient.Me.CalendarView
             .GetAsync(requestConfiguration =>
             {
                 requestConfiguration.QueryParameters.StartDateTime =
-                    "2020-12-01T00:00:00Z";
+                    "2023-06-14T00:00:00Z";
                 requestConfiguration.QueryParameters.EndDateTime =
-                    "2020-12-30T00:00:00Z";
+                    "2023-06-15T00:00:00Z";
             });
         // </QueryParametersRequestSnippet>
 

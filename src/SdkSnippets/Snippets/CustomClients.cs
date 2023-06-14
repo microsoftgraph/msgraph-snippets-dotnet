@@ -3,8 +3,6 @@
 
 using System.Net;
 using Azure.Core;
-using Azure.Core.Pipeline;
-using Azure.Identity;
 using Microsoft.Graph;
 using Microsoft.Graph.Authentication;
 using Microsoft.Kiota.Http.HttpClientLibrary.Middleware;
