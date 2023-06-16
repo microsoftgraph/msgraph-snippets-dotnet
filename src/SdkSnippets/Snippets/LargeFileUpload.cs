@@ -19,10 +19,15 @@ public static class LargeFileUpload
     /// Runs all upload samples in this file.
     /// </summary>
     /// <param name="graphClient">An authenticated <see cref="GraphServiceClient"/>.</param>
+    /// <param name="filePath">A path to a large file.</param>
     /// <returns><see cref="Task"/>.</returns>
-    public static async Task RunUploadSamples(GraphServiceClient graphClient)
+    public static async Task RunUploadSamples(GraphServiceClient graphClient, string? filePath)
     {
-        var filePath = "C:/Users/jasonjoh/OneDrive - Microsoft/Pictures/vacation.gif";
+        if (string.IsNullOrEmpty(filePath))
+        {
+            throw new ArgumentNullException(nameof(filePath));
+        }
+
         var itemPath = "Documents/vacation.gif";
 
         await UploadFileToOneDrive(graphClient, filePath, itemPath);

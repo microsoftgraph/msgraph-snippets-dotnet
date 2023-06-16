@@ -78,7 +78,7 @@ while (choice < 0)
                 await CreateRequests.MakeRequests(userClient);
                 break;
             case 3:
-                await LargeFileUpload.RunUploadSamples(userClient);
+                await LargeFileUpload.RunUploadSamples(userClient, settings.LargeFilePath);
                 break;
             case 4:
                 await Paging.RunAllSamples(userClient);

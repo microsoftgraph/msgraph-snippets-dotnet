@@ -46,6 +46,11 @@ public class Settings
     public bool ShowPayloads { get; set; }
 
     /// <summary>
+    /// Gets or sets the file path to a large file for upload.
+    /// </summary>
+    public string? LargeFilePath { get; set; }
+
+    /// <summary>
     /// Loads settings from appsettings.json and/or appsettings.Development.json.
     /// </summary>
     /// <returns><see cref="Settings"/>.</returns>
