@@ -65,12 +65,9 @@ public static class CreateClients
         // to those permissions beforehand.
         var scopes = new[] { "https://graph.microsoft.com/.default" };
 
-        // Multi-tenant apps can use "common",
-        // single-tenant apps must use the tenant ID from the Azure portal
-        var tenantId = "common";
-
         // Values from app registration
         var clientId = "YOUR_CLIENT_ID";
+        var tenantId = "YOUR_TENANT_ID";
         var clientSecret = "YOUR_CLIENT_SECRET";
 
         // using Azure.Identity;
@@ -98,12 +95,9 @@ public static class CreateClients
         // <ClientCertificateSnippet>
         var scopes = new[] { "https://graph.microsoft.com/.default" };
 
-        // Multi-tenant apps can use "common",
-        // single-tenant apps must use the tenant ID from the Azure portal
-        var tenantId = "common";
-
         // Values from app registration
         var clientId = "YOUR_CLIENT_ID";
+        var tenantId = "YOUR_TENANT_ID";
         var clientCertificate = new X509Certificate2("MyCertificate.pfx");
 
         // using Azure.Identity;

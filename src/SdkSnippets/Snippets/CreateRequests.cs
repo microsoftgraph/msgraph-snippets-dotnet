@@ -30,7 +30,7 @@ public static class CreateRequests
         // Get a team to update
         var teams = await graphClient.Groups.GetAsync(config =>
         {
-            config.QueryParameters.Filter = "resourceProvisioningOptions/Any(x:x+eq+'Team')";
+            config.QueryParameters.Filter = "resourceProvisioningOptions/Any(x:x eq 'Team')";
         });
         var teamId = teams?.Value?.FirstOrDefault()?.Id ?? throw new Exception("Couldn't get a team");
 
@@ -76,7 +76,7 @@ public static class CreateRequests
     {
         // <ListRequestSnippet>
         // GET https://graph.microsoft.com/v1.0/me/messages?
-        // $select=subject,sender&$filter=subject eq 'Hello world'&$orderBy=receivedDateTime
+        // $select=subject,sender&$filter=subject eq 'Hello world'
         var messages = await graphClient.Me.Messages
             .GetAsync(requestConfig =>
             {
