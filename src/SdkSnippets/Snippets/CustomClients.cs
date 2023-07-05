@@ -60,15 +60,6 @@ public static class CustomClients
         // URI to proxy
         var proxyAddress = "http://localhost:8888";
 
-        // Create a new System.Net.Http.HttpClientHandler with the proxy
-        var handler = new HttpClientHandler
-        {
-            // Create a new System.Net.WebProxy
-            // See WebProxy documentation for scenarios requiring
-            // authentication to the proxy
-            Proxy = new WebProxy(new Uri(proxyAddress)),
-        };
-
         var authProvider = new AzureIdentityAuthenticationProvider(tokenCredential, scopes);
 
         // This example works with Microsoft.Graph 5+

@@ -5,6 +5,7 @@
             "label": "build",
             "command": "dotnet",
             "type": "process",
+            "isBuildCommand": true,
             "args": [
                 "build",
                 "${workspaceFolder}/src/SdkSnippets.sln",
