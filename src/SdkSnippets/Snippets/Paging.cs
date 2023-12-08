@@ -21,6 +21,7 @@ public static class Paging
     {
         await IterateAllMessages(graphClient);
         await IterateAllMessagesWithPause(graphClient);
+        await ManuallyPageAllMessagesAsync(graphClient);
     }
 
     private static async Task IterateAllMessages(GraphServiceClient graphClient)
@@ -31,7 +32,7 @@ public static class Paging
             {
                 requestConfiguration.QueryParameters.Top = 10;
                 requestConfiguration.QueryParameters.Select =
-                    new string[] { "sender", "subject", "body" };
+                    ["sender", "subject", "body"];
                 requestConfiguration.Headers.Add(
                     "Prefer", "outlook.body-content-type=\"text\"");
             });
@@ -76,7 +77,7 @@ public static class Paging
             {
                 requestConfiguration.QueryParameters.Top = 10;
                 requestConfiguration.QueryParameters.Select =
-                    new string[] { "sender", "subject" };
+                    ["sender", "subject"];
             });
 
         if (messages == null)
@@ -108,5 +109,34 @@ public static class Paging
             await pageIterator.ResumeAsync();
         }
         // </ResumePagingSnippet>
+    }
+
+    private static async Task ManuallyPageAllMessagesAsync(GraphServiceClient graphClient)
+    {
+        // <ManualPagingSnippet>
+        var messages = await graphClient.Me.Messages
+            .GetAsync(requestConfiguration =>
+            {
+                requestConfiguration.QueryParameters.Top = 10;
+            });
+
+        while (messages?.Value != null)
+        {
+            foreach (var message in messages.Value)
+            {
+                Console.WriteLine(message.Subject);
+            }
+
+            // If OdataNextLink has a value, there is another page
+            if (!string.IsNullOrEmpty(messages.OdataNextLink))
+            {
+                // Pass the OdataNextLink to the WithUrl method
+                // to request the next page
+                messages = await graphClient.Me.Messages
+                    .WithUrl(messages.OdataNextLink)
+                    .GetAsync();
+            }
+        }
+        // </ManualPagingSnippet>
     }
 }

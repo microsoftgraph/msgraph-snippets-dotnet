@@ -49,7 +49,7 @@ public static class BatchRequests
                 });
 
         // Build the batch
-        var batchRequestContent = new BatchRequestContent(graphClient);
+        var batchRequestContent = new BatchRequestContentCollection(graphClient);
 
         // Using AddBatchRequestStepAsync adds each request as a step
         // with no specified order of execution
@@ -135,7 +135,7 @@ public static class BatchRequests
             });
 
         // Build the batch
-        var batchRequestContent = new BatchRequestContent(graphClient);
+        var batchRequestContent = new BatchRequestContentCollection(graphClient);
 
         // Force the requests to execute in order, so that the request for
         // today's events will include the new event created.
@@ -151,7 +151,7 @@ public static class BatchRequests
         batchRequestContent.AddBatchRequestStep(new BatchRequestStep(
             eventsRequestId,
             eventsRequestMessage,
-            new List<string> { addEventRequestId }));
+            [addEventRequestId]));
 
         var returnedResponse = await graphClient.Batch.PostAsync(batchRequestContent);
 

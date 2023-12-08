@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/SdkSnippets/bin/Debug/net7.0/SdkSnippets.dll",
+            "program": "${workspaceFolder}/src/SdkSnippets/bin/Debug/net8.0/SdkSnippets.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/SdkSnippets",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console

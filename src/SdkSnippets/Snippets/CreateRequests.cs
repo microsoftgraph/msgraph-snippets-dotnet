@@ -65,7 +65,7 @@ public static class CreateRequests
             .GetAsync(requestConfiguration =>
             {
                 requestConfiguration.QueryParameters.Select =
-                    new string[] { "displayName", "jobTitle" };
+                    ["displayName", "jobTitle"];
             });
         // </SelectRequestSnippet>
 
@@ -81,7 +81,7 @@ public static class CreateRequests
             .GetAsync(requestConfig =>
             {
                 requestConfig.QueryParameters.Select =
-                    new string[] { "subject", "sender" };
+                    ["subject", "sender"];
                 requestConfig.QueryParameters.Filter =
                     "subject eq 'Hello world'";
             });
@@ -109,7 +109,8 @@ public static class CreateRequests
         // messageId is a string containing the id property of the message
         var message = await graphClient.Me.Messages[messageId]
             .GetAsync(requestConfig =>
-                requestConfig.QueryParameters.Expand = new string[] { "attachments" });
+                requestConfig.QueryParameters.Expand =
+                    ["attachments"]);
         // </ExpandRequestSnippet>
 
         return message;

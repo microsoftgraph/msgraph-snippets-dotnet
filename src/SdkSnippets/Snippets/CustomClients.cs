@@ -60,6 +60,9 @@ public static class CustomClients
         // URI to proxy
         var proxyAddress = "http://localhost:8888";
 
+        // NOTE: Authentication requests will not go through the proxy.
+        // Azure.Identity token credential classes have their own separate method
+        // for configuring a proxy using TokenCredentialOptions.Transport
         var authProvider = new AzureIdentityAuthenticationProvider(tokenCredential, scopes);
 
         // This example works with Microsoft.Graph 5+
