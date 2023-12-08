@@ -151,7 +151,7 @@ public static class BatchRequests
         batchRequestContent.AddBatchRequestStep(new BatchRequestStep(
             eventsRequestId,
             eventsRequestMessage,
-            new List<string> { addEventRequestId }));
+            [addEventRequestId]));
 
         var returnedResponse = await graphClient.Batch.PostAsync(batchRequestContent);
 

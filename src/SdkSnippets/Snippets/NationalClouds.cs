@@ -35,7 +35,7 @@ public static class NationalClouds
         // Create the authentication provider
         var authProvider = new AzureIdentityAuthenticationProvider(
             credential,
-            new[] { "https://graph.microsoft.us/.default" });
+            ["https://graph.microsoft.us/.default"]);
 
         // Create the Microsoft Graph client object using
         // the Microsoft Graph for US Government L4 endpoint
