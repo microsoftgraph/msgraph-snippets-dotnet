@@ -136,6 +136,11 @@ public static class Paging
                     .WithUrl(messages.OdataNextLink)
                     .GetAsync();
             }
+            else
+            {
+                // No more results, exit loop
+                break;
+            }
         }
         // </ManualPagingSnippet>
     }
