@@ -3,6 +3,8 @@
 
 using System.Net;
 using Azure.Core;
+using Azure.Core.Pipeline;
+using Azure.Identity;
 using Microsoft.Graph;
 using Microsoft.Graph.Authentication;
 using Microsoft.Kiota.Http.HttpClientLibrary.Middleware;
@@ -51,14 +53,35 @@ public static class CustomClients
     /// <summary>
     /// Creates a <see cref="GraphServiceClient"/> with an HTTP proxy.
     /// </summary>
-    /// <param name="tokenCredential">The token credential to use to authenticate the client.</param>
     /// <param name="scopes">The Microsoft Graph permission scopes to use for authentication.</param>
     /// <returns><see cref="GraphServiceClient"/>.</returns>
-    public static GraphServiceClient CreateWithProxy(TokenCredential tokenCredential, string[] scopes)
+    public static GraphServiceClient CreateWithProxy(string[] scopes)
     {
         // <ProxySnippet>
         // URI to proxy
         var proxyAddress = "http://localhost:8888";
+
+        // Create an HttpClientHandler with the proxy to
+        // pass to the Azure.Identity token credential
+        var handler = new HttpClientHandler
+        {
+            Proxy = new WebProxy(proxyAddress),
+        };
+
+        // Create an options object that corresponds to the
+        // token credential being used. For example, this sample
+        // uses a ClientSecretCredential, so the corresponding
+        // options object is ClientSecretCredentialOptions
+        var options = new ClientSecretCredentialOptions()
+        {
+            Transport = new HttpClientTransport(handler),
+        };
+
+        var tokenCredential = new ClientSecretCredential(
+            "YOUR_TENANT_ID",
+            "YOUR_CLIENT_ID",
+            "YOUR_CLIENT_SECRET",
+            options);
 
         // NOTE: Authentication requests will not go through the proxy.
         // Azure.Identity token credential classes have their own separate method
@@ -66,7 +89,8 @@ public static class CustomClients
         var authProvider = new AzureIdentityAuthenticationProvider(tokenCredential, scopes);
 
         // This example works with Microsoft.Graph 5+
-        var httpClient = GraphClientFactory.Create(proxy: new WebProxy(new Uri(proxyAddress)));
+        // Use the GraphClientFactory to create an HttpClient with the proxy
+        var httpClient = GraphClientFactory.Create(proxy: new WebProxy(proxyAddress));
         var graphClient = new GraphServiceClient(httpClient, authProvider);
         // </ProxySnippet>
 
