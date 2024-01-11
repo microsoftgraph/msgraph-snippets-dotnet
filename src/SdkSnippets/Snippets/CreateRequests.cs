@@ -65,7 +65,7 @@ public static class CreateRequests
             .GetAsync(requestConfiguration =>
             {
                 requestConfiguration.QueryParameters.Select =
-                    ["displayName", "jobTitle"];
+                    new string[] {"displayName", "jobTitle"};
             });
         // </SelectRequestSnippet>
 
