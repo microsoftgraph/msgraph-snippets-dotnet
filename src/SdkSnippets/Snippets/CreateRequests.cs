@@ -65,7 +65,7 @@ public static class CreateRequests
             .GetAsync(requestConfiguration =>
             {
                 requestConfiguration.QueryParameters.Select =
-                    ["displayName", "jobTitle"];
+                    new string[] {"displayName", "jobTitle"};
             });
         // </SelectRequestSnippet>
 
@@ -81,7 +81,7 @@ public static class CreateRequests
             .GetAsync(requestConfig =>
             {
                 requestConfig.QueryParameters.Select =
-                    ["subject", "sender"];
+                    new string[] {"displayName", "jobTitle"};
                 requestConfig.QueryParameters.Filter =
                     "subject eq 'Hello world'";
             });
@@ -110,7 +110,7 @@ public static class CreateRequests
         var message = await graphClient.Me.Messages[messageId]
             .GetAsync(requestConfig =>
                 requestConfig.QueryParameters.Expand =
-                    ["attachments"]);
+                    new string[] {"attachments"});
         // </ExpandRequestSnippet>
 
         return message;
