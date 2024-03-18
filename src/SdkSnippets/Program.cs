@@ -44,7 +44,7 @@ catch (Exception ex)
 
 int choice = -1;
 
-while (choice < 0)
+do
 {
     Console.WriteLine("Please choose one of the following options:");
     Console.WriteLine("0. Exit");
@@ -70,7 +70,7 @@ while (choice < 0)
             case 0:
                 // Exit the program
                 Console.WriteLine("Goodbye...");
-                break;
+                return;
             case 1:
                 await BatchRequests.RunBatchSamples(userClient);
                 break;
@@ -98,3 +98,4 @@ while (choice < 0)
         Console.WriteLine(ex.StackTrace);
     }
 }
+while (true);
