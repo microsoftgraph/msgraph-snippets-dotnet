@@ -23,6 +23,11 @@ public static class HttpContentExtensions
     /// <returns>The string content.</returns>
     public static async Task<string?> ExtractContentAsync(this HttpContent content, bool isGzip)
     {
+        if (string.Equals(content.Headers.ContentType?.MediaType, "application/octet-stream", StringComparison.InvariantCultureIgnoreCase))
+        {
+            return "Binary content";
+        }
+
         if (isGzip)
         {
             // Without this the stream becomes unreadable
