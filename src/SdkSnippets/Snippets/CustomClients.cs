@@ -28,17 +28,10 @@ public static class CustomClients
         // <ChaosHandlerSnippet>
         // tokenCredential is one of the credential classes from Azure.Identity
         // scopes is an array of permission scope strings
-        var authProvider = new AzureIdentityAuthenticationProvider(tokenCredential, scopes: scopes);
+        var authProvider = new AzureIdentityAuthenticationProvider(tokenCredential, isCaeEnabled: true, scopes: scopes);
 
         var handlers = GraphClientFactory.CreateDefaultHandlers();
 
-        // Remove a default handler
-        // Microsoft.Kiota.Http.HttpClientLibrary.Middleware.CompressionHandler
-        var compressionHandler =
-            handlers.Where(h => h is CompressionHandler).FirstOrDefault();
-        handlers.Remove(compressionHandler);
-
-        // Add a new one
         // ChaosHandler simulates random server failures
         // Microsoft.Kiota.Http.HttpClientLibrary.Middleware.ChaosHandler
         handlers.Add(new ChaosHandler());
@@ -86,7 +79,7 @@ public static class CustomClients
         // NOTE: Authentication requests will not go through the proxy.
         // Azure.Identity token credential classes have their own separate method
         // for configuring a proxy using TokenCredentialOptions.Transport
-        var authProvider = new AzureIdentityAuthenticationProvider(tokenCredential, scopes);
+        var authProvider = new AzureIdentityAuthenticationProvider(tokenCredential, isCaeEnabled: true, scopes: scopes);
 
         // This example works with Microsoft.Graph 5+
         // Use the GraphClientFactory to create an HttpClient with the proxy
