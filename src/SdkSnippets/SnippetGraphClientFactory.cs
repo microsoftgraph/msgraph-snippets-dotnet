@@ -54,7 +54,7 @@ public static class SnippetGraphClientFactory
             }
 
             var authProvider = new AzureIdentityAuthenticationProvider(
-                credential, scopes: settings.GraphUserScopes);
+                credential, isCaeEnabled: true, scopes: settings.GraphUserScopes);
 
             if (settings.DebugLog && loggerFactory != null)
             {
