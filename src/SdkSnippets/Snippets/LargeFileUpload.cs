@@ -145,7 +145,7 @@ public static class LargeFileUpload
         // Max slice size must be a multiple of 320 KiB
         int maxSliceSize = 320 * 1024;
         var fileUploadTask =
-            new LargeFileUploadTask<FileAttachment>(uploadSession, fileStream, maxSliceSize);
+            new LargeFileUploadTask<FileAttachment>(uploadSession, fileStream, maxSliceSize, graphClient.RequestAdapter);
 
         var totalLength = fileStream.Length;
         // Create a callback that is invoked after each slice is uploaded
