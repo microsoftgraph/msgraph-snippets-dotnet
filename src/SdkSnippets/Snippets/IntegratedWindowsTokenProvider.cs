@@ -9,32 +9,24 @@ namespace SdkSnippets.Snippets;
 /// <summary>
 /// Implements a token provider for integrated Windows authentication.
 /// </summary>
+/// <remarks>
+/// Initializes a new instance of the <see cref="IntegratedWindowsTokenProvider"/> class.
+/// </remarks>
+/// <param name="clientId">The client ID from the app registration in Azure.</param>
+/// <param name="tenantId">The tenant ID from the app registration in Azure.</param>
 // <IntegratedWindowsTokenProviderSnippet>
-public class IntegratedWindowsTokenProvider : IAccessTokenProvider
+public class IntegratedWindowsTokenProvider(string clientId, string tenantId) : IAccessTokenProvider
 {
-    private readonly IPublicClientApplication publicClient;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="IntegratedWindowsTokenProvider"/> class.
-    /// </summary>
-    /// <param name="clientId">The client ID from the app registration in Azure.</param>
-    /// <param name="tenantId">The tenant ID from the app registration in Azure.</param>
-    public IntegratedWindowsTokenProvider(string clientId, string tenantId)
-    {
-        // From MSAL (Microsoft.Identity.Client)
-        publicClient = PublicClientApplicationBuilder
+    private readonly IPublicClientApplication publicClient = PublicClientApplicationBuilder
             .Create(clientId)
             .WithTenantId(tenantId)
             .Build();
-
-        AllowedHostsValidator = new AllowedHostsValidator();
-    }
 
     /// <summary>
     /// Gets an <see cref="AllowedHostsValidator"/> that validates if the
     /// target host of a request is allowed for authentication.
     /// </summary>
-    public AllowedHostsValidator AllowedHostsValidator { get; }
+    public AllowedHostsValidator AllowedHostsValidator { get; } = new AllowedHostsValidator();
 
     /// <inheritdoc/>
     public async Task<string> GetAuthorizationTokenAsync(

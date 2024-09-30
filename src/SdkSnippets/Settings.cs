@@ -62,7 +62,7 @@ public class Settings
         // appsettings.Development.json" is optional, values override appsettings.json
         IConfiguration config = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json", optional: false)
-            .AddJsonFile($"appsettings.Development.json", optional: true)
+            .AddJsonFile("appsettings.Development.json", optional: true)
             .Build();
 
         return config.GetRequiredSection("Settings").Get<Settings>() ??
