@@ -51,7 +51,7 @@ public static class AuthExtensions
     {
         if (!string.IsNullOrEmpty(authCachePath))
         {
-            graphScopes ??= new[] { "https://graph.microsoft.com/.default" };
+            graphScopes ??= ["https://graph.microsoft.com/.default"];
 
             var context = new TokenRequestContext(graphScopes);
             var authRecord = await credential.AuthenticateAsync(context);
