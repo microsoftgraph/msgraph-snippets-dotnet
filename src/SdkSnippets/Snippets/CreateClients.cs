@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using Azure.Identity;
+using Azure.Identity.Broker;
 using Microsoft.Graph;
 using Microsoft.Kiota.Abstractions.Authentication;
 
@@ -199,6 +201,14 @@ public static class CreateClients
     public static GraphServiceClient CreateWithIntegratedWindows()
     {
         // <IntegratedWindowsSnippet>
+        [DllImport("user32.dll")]
+        static extern IntPtr GetForegroundWindow();
+
+        // Get parent window handle
+        var parentWindowHandle = GetForegroundWindow();
+
+        var scopes = new[] { "User.Read" };
+
         // Multi-tenant apps can use "common",
         // single-tenant apps must use the tenant ID from the Azure portal
         var tenantId = "common";
@@ -206,10 +216,18 @@ public static class CreateClients
         // Value from app registration
         var clientId = "YOUR_CLIENT_ID";
 
-        var authenticationProvider = new BaseBearerTokenAuthenticationProvider(
-            new IntegratedWindowsTokenProvider(clientId, tenantId));
+        // using Azure.Identity.Broker;
+        // This will use the Web Account Manager in Windows
+        var options = new InteractiveBrowserCredentialBrokerOptions(parentWindowHandle)
+        {
+            ClientId = clientId,
+            TenantId = tenantId,
+        };
 
-        var graphClient = new GraphServiceClient(authenticationProvider);
+        // https://learn.microsoft.com/dotnet/api/azure.identity.interactivebrowsercredential
+        var credential = new InteractiveBrowserCredential(options);
+
+        var graphClient = new GraphServiceClient(credential, scopes);
 
         return graphClient;
         // </IntegratedWindowsSnippet>
