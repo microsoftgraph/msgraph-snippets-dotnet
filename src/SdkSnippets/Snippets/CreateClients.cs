@@ -7,6 +7,7 @@ using Azure.Core;
 using Azure.Identity;
 using Azure.Identity.Broker;
 using Microsoft.Graph;
+using Microsoft.Identity.Client;
 using Microsoft.Kiota.Abstractions.Authentication;
 
 namespace SdkSnippets.Snippets;
@@ -308,14 +309,14 @@ public static class CreateClients
     /// <summary>
     /// Creates a <see cref="GraphServiceClient"/> with a custom token provider.
     /// </summary>
-    /// <param name="credential">A token credential.</param>
+    /// <param name="msalClient">An MSAL client.</param>
     /// <returns><see cref="GraphServiceClient"/>.</returns>
-    public static GraphServiceClient CreateWithCustomTokenProvider(TokenCredential credential)
+    public static GraphServiceClient CreateWithCustomTokenProvider(PublicClientApplication msalClient)
     {
         // <CustomTokenProviderSnippet>
-        // credential is one of the token credential classes
-        // from Azure.Identity
-        var tokenProvider = new CustomTokenProvider(credential);
+        // msalClient is a PublicClientApplication instance
+        // from Microsoft.Identity.Client
+        var tokenProvider = new CustomTokenProvider(msalClient);
 
         // using Microsoft.Kiota.Abstractions.Authentication;
         // The BaseBearerAuthenticationProvider handles adding the token provided

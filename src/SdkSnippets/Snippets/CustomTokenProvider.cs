@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using System.Text;
-using Azure.Core;
+using Microsoft.Identity.Client;
 using Microsoft.Kiota.Abstractions.Authentication;
 
 namespace SdkSnippets.Snippets;
@@ -13,11 +13,11 @@ namespace SdkSnippets.Snippets;
 /// <remarks>
 /// Initializes a new instance of the <see cref="CustomTokenProvider"/> class.
 /// </remarks>
-/// <param name="credential">The token credential to use to request access tokens.</param>
+/// <param name="msalClient">The MSAL client to use for token acquisition.</param>
 /// <param name="scopes">The permission scopes to use for token requests.</param>
 // <CustomTokenProviderSnippet>
 public class CustomTokenProvider(
-    Azure.Core.TokenCredential credential,
+    Microsoft.Identity.Client.PublicClientApplication msalClient,
     params string[] scopes) :
     Microsoft.Kiota.Abstractions.Authentication.IAccessTokenProvider
 {
@@ -71,11 +71,26 @@ public class CustomTokenProvider(
             decodedClaims = Encoding.UTF8.GetString(decodedBytes);
         }
 
-        var result = await credential.GetTokenAsync(
-            new TokenRequestContext(scopes, claims: decodedClaims),
-            cancellationToken);
+        try
+        {
+            // Try silent token acquisition first
+            var accounts = await msalClient.GetAccountsAsync(cancellationToken);
+            var result = await msalClient
+                .AcquireTokenSilent(scopes, accounts.FirstOrDefault())
+                .WithClaims(decodedClaims)
+                .ExecuteAsync(cancellationToken);
+            return result.AccessToken;
+        }
+        catch (MsalUiRequiredException)
+        {
+            // Fallback to interactive
+            var result = await msalClient
+                .AcquireTokenInteractive(scopes)
+                .WithClaims(decodedClaims)
+                .ExecuteAsync(cancellationToken);
 
-        return result.Token;
+            return result.AccessToken;
+        }
     }
 }
 // </CustomTokenProviderSnippet>
