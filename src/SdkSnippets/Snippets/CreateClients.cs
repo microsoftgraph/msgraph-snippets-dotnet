@@ -3,6 +3,7 @@
 
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
+using Azure.Core;
 using Azure.Identity;
 using Azure.Identity.Broker;
 using Microsoft.Graph;
@@ -300,6 +301,48 @@ public static class CreateClients
 
         var graphClient = new GraphServiceClient(userNamePasswordCredential, scopes);
         // </UserNamePasswordSnippet>
+
+        return graphClient;
+    }
+
+    /// <summary>
+    /// Creates a <see cref="GraphServiceClient"/> with a custom token provider.
+    /// </summary>
+    /// <param name="credential">A token credential.</param>
+    /// <returns><see cref="GraphServiceClient"/>.</returns>
+    public static GraphServiceClient CreateWithCustomTokenProvider(TokenCredential credential)
+    {
+        // <CustomTokenProviderSnippet>
+        // credential is one of the token credential classes
+        // from Azure.Identity
+        var tokenProvider = new CustomTokenProvider(credential);
+
+        // using Microsoft.Kiota.Abstractions.Authentication;
+        // The BaseBearerAuthenticationProvider handles adding the token provided
+        // by the custom token provider to outgoing requests.
+        var authenticationProvider = new BaseBearerTokenAuthenticationProvider(
+            tokenProvider);
+
+        var graphClient = new GraphServiceClient(authenticationProvider);
+        // </CustomTokenProviderSnippet>
+
+        return graphClient;
+    }
+
+    /// <summary>
+    /// Creates a <see cref="GraphServiceClient"/> with a custom authentication provider.
+    /// </summary>
+    /// <param name="tokenProvider">A token provider.</param>
+    /// <returns><see cref="GraphServiceClient"/>.</returns>
+    public static GraphServiceClient CreateWithCustomAuthProvider(IAccessTokenProvider tokenProvider)
+    {
+        // <CustomAuthProviderSnippet>
+        // tokenProvider is an implementation of the
+        // Microsoft.Kiota.Abstractions.Authentication.IAccessTokenProvider
+        var authenticationProvider = new CustomAuthenticationProvider(tokenProvider);
+
+        var graphClient = new GraphServiceClient(authenticationProvider);
+        // </CustomAuthProviderSnippet>
 
         return graphClient;
     }
