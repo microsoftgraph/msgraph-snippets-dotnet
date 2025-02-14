@@ -43,7 +43,10 @@ public static class LargeFileUpload
         using var fileStream = File.OpenRead(filePath);
 
         // Use properties to specify the conflict behavior
+        // IMPORTANT: you must add the following using directive to define DriveUpload:
         // using DriveUpload = Microsoft.Graph.Drives.Item.Items.Item.CreateUploadSession;
+        // For more information, see:
+        // https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/using-directive#the-using-alias
         var uploadSessionRequestBody = new DriveUpload.CreateUploadSessionPostRequestBody
         {
             Item = new DriveItemUploadableProperties
@@ -130,7 +133,10 @@ public static class LargeFileUpload
             Size = fileStream.Length,
         };
 
+        // IMPORTANT: you must add the following using directive to define AttachmentUpload:
         // using AttachmentUpload = Microsoft.Graph.Me.Messages.Item.Attachments.CreateUploadSession;
+        // For more information, see:
+        // https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/using-directive#the-using-alias
         var uploadSessionRequestBody = new AttachmentUpload.CreateUploadSessionPostRequestBody
         {
             AttachmentItem = largeAttachment,
@@ -144,8 +150,8 @@ public static class LargeFileUpload
 
         // Max slice size must be a multiple of 320 KiB
         int maxSliceSize = 320 * 1024;
-        var fileUploadTask =
-            new LargeFileUploadTask<FileAttachment>(uploadSession, fileStream, maxSliceSize, graphClient.RequestAdapter);
+        var fileUploadTask = new LargeFileUploadTask<FileAttachment>(
+            uploadSession, fileStream, maxSliceSize, graphClient.RequestAdapter);
 
         var totalLength = fileStream.Length;
         // Create a callback that is invoked after each slice is uploaded
