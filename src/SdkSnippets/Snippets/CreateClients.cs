@@ -102,7 +102,8 @@ public static class CreateClients
         // Values from app registration
         var clientId = "YOUR_CLIENT_ID";
         var tenantId = "YOUR_TENANT_ID";
-        var clientCertificate = new X509Certificate2("MyCertificate.pfx");
+        var clientCertificate = X509CertificateLoader
+            .LoadCertificateFromFile("MyCertificate.pfx");
 
         // using Azure.Identity;
         var options = new ClientCertificateCredentialOptions
