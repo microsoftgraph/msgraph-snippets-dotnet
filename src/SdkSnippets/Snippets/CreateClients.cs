@@ -276,6 +276,7 @@ public static class CreateClients
     /// Creates a <see cref="GraphServiceClient"/> with username/password provider.
     /// </summary>
     /// <returns><see cref="GraphServiceClient"/>.</returns>
+    [Obsolete("Apps should not use the UsernamePasswordCredential if at all possible.")]
     public static GraphServiceClient CreateWithUserNamePassword()
     {
         // <UserNamePasswordSnippet>
